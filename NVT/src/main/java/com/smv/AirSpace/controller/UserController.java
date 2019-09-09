@@ -18,31 +18,26 @@ import com.smv.AirSpace.service.UserServiceImpl;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-	
+
 	@Autowired
 	UserServiceImpl userService;
-	
 
-	
 	// Create new user.
-	@PostMapping( consumes = "application/json")
+	@PostMapping(consumes = "application/json")
 	public ResponseEntity<User> addUser(@RequestBody UserDTO userDTO) {
 		User user = userService.saveUser(userDTO);
-		
-		
-		return new ResponseEntity<User>(user, HttpStatus.CREATED);
-	}
-	
-	// Create new employee.
-	// @PreAuthorize("hasAuthority('ADMINISTRATOR')")
-	@PostMapping( value="/addEmployee" ,consumes = "application/json")
-	public ResponseEntity<User> addEmployee(@RequestBody UserDTO userDTO) {
-		User user = userService.saveEmpleyee(userDTO);
-		
-		
+
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
+	// Create new employee.
+	//@PreAuthorize("hasAuthority('ADMINISTRATOR')")
+	@PostMapping(value = "/addEmployee", consumes = "application/json")
+	public ResponseEntity<User> addEmployee(@RequestBody UserDTO userDTO) {
+		User user = userService.saveEmpleyee(userDTO);
+
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
 
 	@GetMapping(value = "/activate/{uuid}")
 	public String activateUser(@PathVariable("uuid") String uuid) {
