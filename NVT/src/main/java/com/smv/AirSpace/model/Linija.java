@@ -3,13 +3,16 @@ package com.smv.AirSpace.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -17,19 +20,19 @@ import javax.persistence.Table;
 @Table(name = "linija")
 public class Linija implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
-	
+
 	String broj;
-	
+
 	String naziv;
-	
+
 	@ManyToMany
 	List<Stajaliste> stajalista;
-	
+
 	@ManyToMany
 	List<Polazak> polasci;
-	
+
 	@Enumerated(EnumType.STRING)
 	TipVozila tip;
 
@@ -101,7 +104,5 @@ public class Linija implements Serializable {
 		return "Linija [id=" + id + ", broj=" + broj + ", naziv=" + naziv + ", stajalista=" + stajalista + ", polasci="
 				+ polasci + ", tip=" + tip + "]";
 	}
-	
-	
 
 }

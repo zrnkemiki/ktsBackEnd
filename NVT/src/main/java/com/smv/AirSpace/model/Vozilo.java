@@ -10,13 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.smv.AirSpace.dto.VoziloDTO;
+
 @Entity
 @Table(name = "vozilo")
-public class Vozilo implements Serializable {
+public class Vozilo{
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	
 	//@Column(nullable = false)
 	private Long idTrenutnoStajaliste;
@@ -31,12 +34,32 @@ public class Vozilo implements Serializable {
 		super();
 	}
 	
+	public Vozilo(VoziloDTO dto) {
+		this.id = dto.getId();
+		this.idTrenutnoStajaliste = dto.getStajaliste();
+		this.idLinija = Long.parseLong(dto.getLinijaString());
+		
+		if(dto.getTip().toLowerCase().equals("autobus")) {
+			this.setTip(TipVozila.autobus);
+		}
+		else if(dto.getTip().toLowerCase().equals("tramvaj")) {
+			this.setTip(TipVozila.tramvaj);
+		}
+		else if(dto.getTip().toLowerCase().equals("metro")) {
+			this.setTip(TipVozila.metro);
+		}
+		else this.setTip(TipVozila.autobus);
+		
+	}
+
+	
 	public Vozilo(Long id, long Idstajaliste, Long IdLinije, TipVozila tip) {
 		super();
 		this.id = id;
 		this.idTrenutnoStajaliste = Idstajaliste;
 		this.idLinija = IdLinije;
 		this.tip = tip;
+		
 	}
 	public Long getId() {
 		return id;
@@ -67,4 +90,5 @@ public class Vozilo implements Serializable {
 	public String toString() {
 		return "Vozilo [id=" + id + ", stajaliste=" + idTrenutnoStajaliste + ", linija=" + idLinija + ", tip=" + tip + "]";
 	}
+
 }
