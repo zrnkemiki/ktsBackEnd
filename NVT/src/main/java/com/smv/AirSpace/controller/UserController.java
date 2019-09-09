@@ -32,6 +32,16 @@ public class UserController {
 		
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
+	
+	// Create new employee.
+	// @PreAuthorize("hasAuthority('ADMINISTRATOR')")
+	@PostMapping( value="/addEmployee" ,consumes = "application/json")
+	public ResponseEntity<User> addEmployee(@RequestBody UserDTO userDTO) {
+		User user = userService.saveEmpleyee(userDTO);
+		
+		
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
 
 
 	@GetMapping(value = "/activate/{uuid}")

@@ -55,7 +55,7 @@ public class VoziloKontroler {
 	}
 
 	// Create new vehicle.
-	// @PreAuthorize("hasAuthority('RENTACAR_ADMIN')")
+	// @PreAuthorize("hasAuthority('ADMINISTRATOR')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Vozilo> addVehicle(@RequestBody VoziloDTO voziloDTO) {
 
@@ -65,7 +65,7 @@ public class VoziloKontroler {
 	}
 
 	// Update vozilo.
-	// @PreAuthorize("hasAuthority('RENTACAR_ADMIN')")
+	// @PreAuthorize("hasAuthority('ADMINISTRATOR')")
 	@PutMapping()
 	public ResponseEntity<Vozilo> updateVehicle(@RequestBody VoziloDTO voziloDTO, Principal principal) {
 		return new ResponseEntity<Vozilo>(voziloServis.update(voziloDTO, principal), HttpStatus.OK);

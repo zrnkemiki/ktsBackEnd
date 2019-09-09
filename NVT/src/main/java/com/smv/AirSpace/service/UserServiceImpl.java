@@ -45,6 +45,21 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 	
+	public User saveEmpleyee(UserDTO userDTO) {
+		User user = new User(userDTO);
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setUserType(UserType.EMPLOYEE);
+		user.setUserStatus(UserStatus.PENDING);
+		emailService.sendMail(user, "Activation link",
+				"Please follow link below to activate \nhttp://localhost:8080/api/user/activate/"
+						+ user.getUuid());
+		
+		userRepository.save(user);
+		return user;
+	}
+	
+	
+	
 	public User saveUser(User user) {
 		userRepository.save(user);
 		return user;
