@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "linija")
 public class Linija implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	String broj;

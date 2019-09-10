@@ -12,20 +12,23 @@ public class StajalisteDTO {
 	
 	public StajalisteDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
+	
+	public StajalisteDTO(Long id, String naziv, Double lokacijaX, Double lokacijaY, String adresa) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.lokacijaX = lokacijaX;
+		this.lokacijaY = lokacijaY;
+		this.adresa = adresa;
+	}
+	
 	public StajalisteDTO (Stajaliste staj) {
 		this.id = staj.getId();
-		//System.out.println(this.id);
 		this.naziv = staj.getNaziv();
-		//System.out.println(this.naziv);
 		this.lokacijaX = staj.getLokacijaX();
-		//System.out.println(this.lokacijaX);
 		this.lokacijaY = staj.getLokacijaY();
-		//System.out.println(this.lokacijaY);
 		this.adresa = staj.getAdresa();
-		//System.out.println(this.adresa);
 	}
 
 	public Long getId() {
