@@ -24,14 +24,14 @@ public class MyUserDtailsService implements UserDetailsService {
 
 	@Autowired
 	UserServiceImpl service;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final User user = service.getUserByUsername(username);
-		if(user.getUserStatus()!=UserStatus.ACTIVATED) {
+		if (user.getUserStatus() != UserStatus.ACTIVATED) {
 			throw new AccountNotActivatedException();
 		}
-		
+
 		UserDetails details = new UserDetails() {
 			/**
 			 * 
@@ -40,54 +40,53 @@ public class MyUserDtailsService implements UserDetailsService {
 
 			@Override
 			public boolean isEnabled() {
-				
+
 				return true;
 			}
-			
+
 			@Override
 			public boolean isCredentialsNonExpired() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public boolean isAccountNonLocked() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public boolean isAccountNonExpired() {
 				// TODO Auto-generated method stub
 				return true;
 			}
-			
+
 			@Override
 			public String getUsername() {
 				// TODO Auto-generated method stub
 				return user.getUsername();
 			}
-			
+
 			@Override
 			public String getPassword() {
-				
+
 				return user.getPassword();
 			}
-			
+
 			@Override
 			public Collection<? extends GrantedAuthority> getAuthorities() {
-				if(user.getUserType()==null) {
+				if (user.getUserType() == null) {
 					return new ArrayList<>();
 				}
-				 final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getUserType().toString()));
-			      return authorities;
+				final List<GrantedAuthority> authorities = Collections
+						.singletonList(new SimpleGrantedAuthority(user.getUserType().toString()));
+				return authorities;
 			}
 		};
-		
+
 		return details;
 
 	}
-	
-	 
 
 }
