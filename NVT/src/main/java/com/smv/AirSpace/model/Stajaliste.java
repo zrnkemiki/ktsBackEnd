@@ -1,24 +1,19 @@
 package com.smv.AirSpace.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.smv.AirSpace.dto.StajalisteDTO;
 
-/**
- * @author Nemanja
- * Nov 5, 2018
- */
 @Entity
 @Table(name = "stajaliste")
-public class Stajaliste implements Serializable {
+public class Stajaliste {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String naziv;
@@ -29,18 +24,10 @@ public class Stajaliste implements Serializable {
 	
 	private String adresa;
 
-	
 	public Stajaliste() {
 		super();
 	}
 
-	/**
-	 * @param id
-	 * @param naziv
-	 * @param lokacijaX
-	 * @param lokacijaY
-	 * @param adresa
-	 */
 	public Stajaliste(Long id, String naziv, Double lokacijaX, Double lokacijaY, String adresa) {
 		super();
 		this.id = id;
@@ -50,32 +37,34 @@ public class Stajaliste implements Serializable {
 		this.adresa = adresa;
 	}
 
+	public Stajaliste(StajalisteDTO dto) {
+		this.id = dto.getId();
+		this.naziv = dto.getNaziv();
+		this.lokacijaX = dto.getLokacijaX();
+		this.lokacijaY = dto.getLokacijaY();
+		this.adresa = dto.getAdresa();
+	}
 	
 	public Long getId() {
 		return id;
 	}
 
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	
 	public String getNaziv() {
 		return naziv;
 	}
 
-	
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
 
-	
 	public Double getLokacijaX() {
 		return lokacijaX;
 	}
 
-	
 	public void setLokacijaX(Double lokacijaX) {
 		this.lokacijaX = lokacijaX;
 	}
@@ -84,16 +73,13 @@ public class Stajaliste implements Serializable {
 		return lokacijaY;
 	}
 
-	
 	public void setLokacijaY(Double lokacijaY) {
 		this.lokacijaY = lokacijaY;
 	}
 
-	
 	public String getAdresa() {
 		return adresa;
 	}
-
 	
 	public void setAdresa(String adresa) {
 		this.adresa = adresa;
@@ -104,8 +90,5 @@ public class Stajaliste implements Serializable {
 		return "Stajaliste [id=" + id + ", naziv=" + naziv + ", lokacijaX=" + lokacijaX + ", lokacijaY=" + lokacijaY
 				+ ", adresa=" + adresa + "]";
 	}
-	
-	
-	
 
 }

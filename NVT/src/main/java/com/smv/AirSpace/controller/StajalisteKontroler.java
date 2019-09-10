@@ -1,13 +1,17 @@
 package com.smv.AirSpace.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,87 +21,57 @@ import com.smv.AirSpace.dto.StajalisteDTO;
 import com.smv.AirSpace.model.Stajaliste;
 import com.smv.AirSpace.service.StajalisteServis;
 
-/**
- * @author Nemanja
- * Nov 22, 2018
- */
 
 @RestController
-@RequestMapping(value = "api/stajaliste")
+@RequestMapping(value = "/stajaliste")
 public class StajalisteKontroler {
 	
 	@Autowired
-	StajalisteServis stajalisteSer;
+	StajalisteServis stajalisteServis;
 	
-	//Get all of entity stajaliste.
-	@GetMapping("/all")
-	public ResponseEntity<List<StajalisteDTO>> getAll(){
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getAll() {
 		
-		List<Stajaliste> stajalista = stajalisteSer.getAll();
-
-		List<StajalisteDTO> stajalistaDTO = new ArrayList<>();
+		List<Stajaliste> stajalista = stajalisteServis.findAll();
+		List<StajalisteDTO> stajalistaDTO = new ArrayList<StajalisteDTO>();
 		for (Stajaliste s : stajalista) {
 			stajalistaDTO.add(new StajalisteDTO(s));
 		}
-		return new ResponseEntity<>(stajalistaDTO, HttpStatus.OK);
 		
-	}
-	
-	//Get one stajaliste.
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<StajalisteDTO> getStajaliste(@PathVariable Long id){
-		Stajaliste s = stajalisteSer.getOne(id);
-		if(s == null){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		return new ResponseEntity<>(new StajalisteDTO(s), HttpStatus.OK);
-	}
-	
-	//New stajaliste.
-	@RequestMapping(value="/add", method=RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<StajalisteDTO> saveStajaliste(@RequestBody StajalisteDTO stajDTO){
-		Stajaliste s = new Stajaliste();
-		
-		s.setId(stajDTO.getId());
-		s.setNaziv(stajDTO.getNaziv());
-		s.setLokacijaX(stajDTO.getLokacijaX());
-		s.setLokacijaY(stajDTO.getLokacijaY());
-		s.setAdresa(stajDTO.getAdresa());
-		
-		s = stajalisteSer.save(s);
-	
-		return new ResponseEntity<>(new StajalisteDTO(s), HttpStatus.CREATED);	
-	}
-	
-	//Update stajaliste.
-	@RequestMapping(value="/update", method=RequestMethod.PUT, consumes="application/json")
-	public ResponseEntity<StajalisteDTO> updateStajaliste(@RequestBody StajalisteDTO stajDTO){
-		
-		Stajaliste s = stajalisteSer.getOne(stajDTO.getId());
-		
-		if (s == null) {
+		try {
+			return new ResponseEntity<List<StajalisteDTO>>(stajalistaDTO, HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		s.setId(stajDTO.getId());
-		s.setNaziv(stajDTO.getNaziv());
-		s.setLokacijaX(stajDTO.getLokacijaX());
-		s.setLokacijaY(stajDTO.getLokacijaY());
-		s.setAdresa(stajDTO.getAdresa());
-		
-		s = stajalisteSer.save(s);
-		return new ResponseEntity<>(new StajalisteDTO(s), HttpStatus.OK);	
 	}
 	
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getStajaliste(@PathVariable("id") Long id) {
+		Stajaliste s = stajalisteServis.findByID(id);
+		if (s == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		StajalisteDTO stajalisteDTO = new StajalisteDTO(s);
+		return new ResponseEntity<StajalisteDTO>(stajalisteDTO, HttpStatus.OK);
+	}
 	
-	//Delete stajaliste.
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteStajaliste(@PathVariable Long id){
-		Stajaliste s = stajalisteSer.getOne(id);
-		if (s != null){
-			stajalisteSer.delete(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+	@PostMapping(consumes = "application/json")
+	public ResponseEntity<Stajaliste> addStajaliste(@RequestBody StajalisteDTO stajalisteDTO) {
+		Stajaliste stajaliste = stajalisteServis.save(stajalisteDTO);
+		return new ResponseEntity<Stajaliste>(stajaliste, HttpStatus.CREATED);
+	}
+	
+	@PutMapping()
+	public ResponseEntity<Stajaliste> updateStajaliste(@RequestBody StajalisteDTO stajalisteDTO, Principal principal) {
+		return new ResponseEntity<Stajaliste>(stajalisteServis.update(stajalisteDTO, principal), HttpStatus.OK);	
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteStajaliste(@PathVariable Long id) {
+		Stajaliste stajaliste = stajalisteServis.getOne(id);
+		if (stajaliste != null) {
+			stajalisteServis.delete(stajaliste.getId());
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {		
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
