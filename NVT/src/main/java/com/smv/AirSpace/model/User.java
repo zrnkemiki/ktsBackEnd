@@ -40,12 +40,22 @@ public class User {
 	protected Long companyId;
 	
 	protected String uuid;
-	/*
+	
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Karta> ticket;
-    */
+    private List<Karta> karte;
+    
 	
 
+
+
+	public List<Karta> getKarte() {
+		return karte;
+	}
+
+
+	public void setKarte(List<Karta> karte) {
+		this.karte = karte;
+	}
 
 
 	public String getUuid() {

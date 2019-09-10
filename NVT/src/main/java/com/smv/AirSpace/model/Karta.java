@@ -1,14 +1,15 @@
 package com.smv.AirSpace.model;
  
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
- 
-import java.util.Date;
  
 @Entity
 @Table(name = "karte")
@@ -31,20 +32,47 @@ public class Karta {
    
     private Long idVlasnik;
  
-    public Karta() {
+    @ManyToOne()
+	private User user;
+    
+    public User getUser() {
+		return user;
+	}
+
+
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+
+
+
+	public Karta(Long id, TipKarte tip, boolean aktivirana, Date vaziOd, Date vaziDo, int cena, Long idVlasnik,
+			User user) {
+		super();
+		this.id = id;
+		this.tip = tip;
+		this.aktivirana = aktivirana;
+		this.vaziOd = vaziOd;
+		this.vaziDo = vaziDo;
+		this.cena = cena;
+		this.idVlasnik = idVlasnik;
+		this.user = user;
+	}
+
+
+
+
+
+	public Karta() {
         super();
     }
  
-    public Karta(Long id, TipKarte tip, boolean aktivirana, Date vaziOd, Date vaziDo, int cena, Long idVlasnik) {
-        super();
-        this.id = id;
-        this.tip = tip;
-        this.aktivirana = aktivirana;
-        this.vaziOd = vaziOd;
-        this.vaziDo = vaziDo;
-        this.cena = cena;
-        this.idVlasnik = idVlasnik;
-    }
+
  
     public Long getId() {
         return id;

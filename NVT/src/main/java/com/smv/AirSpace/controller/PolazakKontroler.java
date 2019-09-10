@@ -54,20 +54,20 @@ public class PolazakKontroler {
 		return new ResponseEntity<PolazakDTO>(polazakDTO, HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Polazak> addPolazak(@RequestBody PolazakDTO polazakDTO) {
 		Polazak polazak = polazakServis.save(polazakDTO);
 		return new ResponseEntity<Polazak>(polazak, HttpStatus.CREATED);	
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PutMapping()
 	public ResponseEntity<Polazak> updatePolazak(@RequestBody PolazakDTO polazakDTO, Principal principal) {
 		return new ResponseEntity<Polazak>(polazakServis.update(polazakDTO, principal), HttpStatus.OK);	
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deletePolazak(@PathVariable Long id) {
 		Polazak polazak = polazakServis.getOne(id);

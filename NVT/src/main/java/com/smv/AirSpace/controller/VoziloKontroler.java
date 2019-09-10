@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smv.AirSpace.dto.VoziloDTO;
 import com.smv.AirSpace.model.Vozilo;
+import com.smv.AirSpace.service.UserServiceImpl;
 import com.smv.AirSpace.service.VoziloServis;
 
 @RestController
@@ -27,11 +28,14 @@ public class VoziloKontroler {
 
 	@Autowired
 	VoziloServis voziloServis;
+	
+	@Autowired
+	UserServiceImpl userService;
 
 	// Get all of entity vozilo.
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAll() {
-
+		
 		List<Vozilo> vozila = voziloServis.findAll();
 		List<VoziloDTO> vozilaDTO = new ArrayList<VoziloDTO>();
 

@@ -1,9 +1,7 @@
 package com.smv.AirSpace.model;
 
 import java.util.Date;
-import java.util.Map;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,23 +16,28 @@ public class Cenovnik {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private boolean aktivan;
+	
 	private Date datumOd;
 	
 	private Date datumDo;
 	
-	@ElementCollection
-	private Map<TipKarte,Integer> ceneKarata;
+	private TipKarte tipKarte;
+	
+	private int cena;
 
 	public Cenovnik() {
 		super();
 	}
 
-	public Cenovnik(Long id, Date datumOd, Date datumDo, Map<TipKarte, Integer> ceneKarata) {
+	public Cenovnik(Long id, boolean aktivan, Date datumOd, Date datumDo, TipKarte tipKarte, int cena) {
 		super();
 		this.id = id;
+		this.aktivan = aktivan;
 		this.datumOd = datumOd;
 		this.datumDo = datumDo;
-		this.ceneKarata = ceneKarata;
+		this.tipKarte = tipKarte;
+		this.cena = cena;
 	}
 
 	public Long getId() {
@@ -43,6 +46,14 @@ public class Cenovnik {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isAktivan() {
+		return aktivan;
+	}
+
+	public void setAktivan(boolean aktivan) {
+		this.aktivan = aktivan;
 	}
 
 	public Date getDatumOd() {
@@ -61,20 +72,34 @@ public class Cenovnik {
 		this.datumDo = datumDo;
 	}
 
-	public Map<TipKarte, Integer> getCeneKarata() {
-		return ceneKarata;
+	public TipKarte getTipKarte() {
+		return tipKarte;
 	}
 
-	public void setCeneKarata(Map<TipKarte, Integer> ceneKarata) {
-		this.ceneKarata = ceneKarata;
+	public void setTipKarte(TipKarte tipKarte) {
+		this.tipKarte = tipKarte;
+	}
+
+	public int getCena() {
+		return cena;
+	}
+
+	public void setCena(int cena) {
+		this.cena = cena;
 	}
 
 	@Override
 	public String toString() {
-		return "Cenovnik [id=" + id + ", datumOd=" + datumOd + ", datumDo=" + datumDo + ", ceneKarata=" + ceneKarata
-				+ "]";
+		return "Cenovnik [id=" + id + ", aktivan=" + aktivan + ", datumOd=" + datumOd + ", datumDo=" + datumDo
+				+ ", tipKarte=" + tipKarte + ", cena=" + cena + "]";
 	}
 	
 	
+	
+
+
+	
+	
+
 	
 }
