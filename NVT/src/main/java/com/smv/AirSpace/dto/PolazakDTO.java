@@ -12,6 +12,13 @@ public class PolazakDTO {
 		super();
 	}
 
+	public PolazakDTO(Long id, String dan, String vreme) {
+		super();
+		this.id = id;
+		this.dan = dan;
+		this.vreme = vreme;
+	}
+
 	public PolazakDTO (Polazak pol) {
 		this.id = pol.getId();
 		this.dan = pol.getDan();
