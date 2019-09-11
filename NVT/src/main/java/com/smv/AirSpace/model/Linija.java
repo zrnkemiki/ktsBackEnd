@@ -1,6 +1,6 @@
 package com.smv.AirSpace.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,10 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
+import com.smv.AirSpace.dto.LinijaDTO;
+import com.smv.AirSpace.dto.PolazakDTO;
+import com.smv.AirSpace.dto.StajalisteDTO;
+
 @Entity
 @Table(name = "linija")
-public class Linija implements Serializable {
+public class Linija {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -46,6 +49,23 @@ public class Linija implements Serializable {
 		this.stajalista = stajalista;
 		this.polasci = polasci;
 		this.tip = tip;
+	}
+	
+	public Linija(LinijaDTO linijaDTO) {
+		this.id = linijaDTO.getId();
+		this.broj = linijaDTO.getBroj();
+		this.naziv = linijaDTO.getNaziv();
+		List<Stajaliste> staj = new ArrayList<>();
+		for (StajalisteDTO stajDTO : linijaDTO.getStajalista()) {
+			staj.add(new Stajaliste(stajDTO));
+		}
+		this.stajalista = staj;
+		List<Polazak> pol = new ArrayList<>();
+		for (PolazakDTO polDTO : linijaDTO.getPolasci()) {
+			pol.add(new Polazak(polDTO));
+		}
+		this.polasci = pol;
+		this.tip = linijaDTO.getTip();
 	}
 
 	public Long getId() {

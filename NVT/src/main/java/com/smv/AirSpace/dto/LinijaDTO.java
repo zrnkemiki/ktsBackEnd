@@ -21,18 +21,29 @@ public class LinijaDTO {
 		super();
 	}
 
+	public LinijaDTO(Long id, String broj, String naziv, List<StajalisteDTO> stajalista, List<PolazakDTO> polasci,
+			TipVozila tip) {
+		super();
+		this.id = id;
+		this.broj = broj;
+		this.naziv = naziv;
+		this.stajalista = stajalista;
+		this.polasci = polasci;
+		this.tip = tip;
+	}
+
 	public LinijaDTO (Linija lin) {
 		this.id = lin.getId();
 		this.broj = lin.getBroj();
 		this.naziv = lin.getNaziv();
-		this.stajalista = new ArrayList<StajalisteDTO>();
-		for(Stajaliste staj : lin.getStajalista()) {
-			StajalisteDTO stajDTO = new StajalisteDTO();
-			this.stajalista.add(stajDTO);
+		this.stajalista = new ArrayList<>();
+		for (Stajaliste staj : lin.getStajalista()) {
+			this.stajalista.add(new StajalisteDTO(staj));
 		}
-		this.polasci = new ArrayList<PolazakDTO>();
-		for(Polazak pol : lin.getPolasci())
-			this.polasci.add(new PolazakDTO());
+		this.polasci = new ArrayList<>();
+		for (Polazak pol : lin.getPolasci()) {
+			this.polasci.add(new PolazakDTO(pol));
+		}
 		this.tip = lin.getTip();
 	}
 
