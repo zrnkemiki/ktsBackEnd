@@ -1,6 +1,7 @@
 package com.smv.AirSpace.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,27 @@ import com.smv.AirSpace.dto.CenovnikDTO;
 import com.smv.AirSpace.model.Cenovnik;
 import com.smv.AirSpace.service.CenovnikService;
 
-
-
 @RestController
 @RequestMapping(value = "cenovnik")
 public class CenovnikKontroler {
 
 	@Autowired
 	CenovnikService cenovnikServis;
-	
-	//svi cenovnici
+
+	// svi cenovnici
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAll() {
-		
+
 		List<Cenovnik> cenovnici = cenovnikServis.findAll();
 		List<CenovnikDTO> cenovniciDTO = new ArrayList<>();
 
+		Iterator<Cenovnik> iterator = cenovnici.iterator();
+		while (iterator.hasNext()) {
+			Cenovnik cenovnik = iterator.next();
+			if (!cenovnik.isAktivan()) {
+				iterator.remove();
+			}
+		}
 
 		for (Cenovnik cen : cenovnici) {
 			cenovniciDTO.add(new CenovnikDTO(cen));
@@ -48,28 +54,26 @@ public class CenovnikKontroler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	//dodaj novi cenovnik
-	@PreAuthorize("hasAuthority('ADMINISTRATOR')")
+
+	// dodaj novi cenovnik
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Cenovnik> saveCenovnik(@RequestBody CenovnikDTO cenovnikDTO){
-			
-		Cenovnik cenovnik = cenovnikServis.save(cenovnikDTO);
-		return new ResponseEntity<>(cenovnik, HttpStatus.CREATED);	
+	public ResponseEntity<Cenovnik> saveCenovnik(@RequestBody CenovnikDTO cenovnikDTO) {
+
+		Cenovnik cenovnik = cenovnikServis.saveCenovnik(cenovnikDTO);
+		return new ResponseEntity<>(cenovnik, HttpStatus.CREATED);
 	}
-	
-		
-	
-	// Delete cenovnik.
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteCenovnik(@PathVariable Long id) {
+
+	// Deaktiviraj cenovnik.
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Cenovnik> deleteCenovnik(@PathVariable Long id) {
 		Cenovnik cenovnik = cenovnikServis.getOne(id);
 		if (cenovnik == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		cenovnikServis.delete(cenovnik.getId());
-		return new ResponseEntity<>(HttpStatus.OK);
+		cenovnik.setAktivan(false);
+		cenovnikServis.save(cenovnik);
+		return new ResponseEntity<>(cenovnik, HttpStatus.OK);
 	}
 
-	
 }

@@ -37,7 +37,7 @@ public class Karta {
 	@ManyToOne()
 	private User user;
 
-	public User getUser() {
+	public User dajUsera() {
 		return user;
 	}
 

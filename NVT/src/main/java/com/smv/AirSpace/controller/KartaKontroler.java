@@ -63,12 +63,10 @@ public class KartaKontroler {
 	@PostMapping(consumes="application/json")
 	public ResponseEntity<Karta> addKarta(@RequestBody KartaDTO kartaDTO, Principal principal){
 
-		//User user = userService.getUserByUsername(principal.getName());
-		User user = new User();
-		user.setId(2L);
+		User user = userService.getUserByUsername(principal.getName());
 		Karta karta = kartaServis.saveKarta(kartaDTO, user);
 		
-		return new ResponseEntity<>(karta, HttpStatus.CREATED);	
+		return new ResponseEntity<Karta>(karta, HttpStatus.CREATED);	
 	}
 	
 	//Aktiviraj kartu

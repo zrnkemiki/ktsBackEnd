@@ -22,6 +22,10 @@ public class CenovnikService {
 		return cenovnikRepo.findAll();	
 	}
 	
+	public Cenovnik save(Cenovnik cenovnik) {
+		return cenovnikRepo.save(cenovnik);
+	}
+	
 	public Cenovnik findOne(Long id) {
 		return cenovnikRepo.findById(id).orElse(null);
 	}
@@ -30,7 +34,7 @@ public class CenovnikService {
 		return cenovnikRepo.getOne(id);
 	}
 
-	public Cenovnik save(CenovnikDTO cenovnikDTO) {
+	public Cenovnik saveCenovnik(CenovnikDTO cenovnikDTO) {
 
 		Cenovnik cenovnik = new Cenovnik();
 		cenovnik.setId(cenovnikDTO.getId());
