@@ -43,10 +43,6 @@ public class LinijaServis {
 	public Linija getOne(Long broj) {
 		return linijaRepo.getOne(broj);
 	}
-
-	public Linija save(Linija linija) {
-		return linijaRepo.save(linija);
-	}
 	
 	public Linija save(LinijaDTO linijaDTO) {
 		Linija linija = new Linija();
