@@ -1,7 +1,5 @@
 package com.smv.AirSpace.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -38,14 +36,15 @@ public class Vozilo {
 		this.idTrenutnoStajaliste = dto.getStajaliste();
 		this.idLinija = Long.parseLong(dto.getLinijaString());
 
-		if (dto.getTip().toLowerCase().equals("autobus")) {
+		if (dto.getTip().equalsIgnoreCase("autobus")) {
 			this.setTip(TipVozila.autobus);
-		} else if (dto.getTip().toLowerCase().equals("tramvaj")) {
+		} else if (dto.getTip().equalsIgnoreCase("tramvaj")) {
 			this.setTip(TipVozila.tramvaj);
-		} else if (dto.getTip().toLowerCase().equals("metro")) {
+		} else if (dto.getTip().equalsIgnoreCase("metro")) {
 			this.setTip(TipVozila.metro);
-		} else
+		} else {
 			this.setTip(TipVozila.autobus);
+		}
 
 	}
 

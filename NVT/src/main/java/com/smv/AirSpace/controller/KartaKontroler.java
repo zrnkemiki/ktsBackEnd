@@ -1,5 +1,6 @@
 package com.smv.AirSpace.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,16 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smv.AirSpace.dto.KartaDTO;
 import com.smv.AirSpace.model.Karta;
+import com.smv.AirSpace.model.User;
 import com.smv.AirSpace.service.KartaServis;
+import com.smv.AirSpace.service.UserServiceImpl;
 
 
 
 @RestController
-@RequestMapping(value = "api/karta")
+@RequestMapping(value = "karta")
 public class KartaKontroler {
 
 	@Autowired
 	KartaServis kartaServis;
+	
+	@Autowired
+	UserServiceImpl userService;
 	
 	//vrati sve karte
 	@GetMapping("/all")
@@ -54,40 +60,30 @@ public class KartaKontroler {
 	}
 	
 	//dodaj novu kartu
-	@PostMapping(value="/add", consumes="application/json")
-	public ResponseEntity<KartaDTO> saveKarta(@RequestBody KartaDTO kartaDTO){
-		Karta karta = new Karta();
-		karta.setId(kartaDTO.getId());
-		karta.setTip(kartaDTO.getTip());
-		karta.setAktivirana(kartaDTO.isAktivirana());
-		karta.setVaziOd(kartaDTO.getVaziOd());
-		karta.setVaziDo(kartaDTO.getVaziDo());
-		karta.setCena(kartaDTO.getCena());
-		karta.setVlasnik(kartaDTO.getVlasnik());
+	@PostMapping(consumes="application/json")
+	public ResponseEntity<Karta> addKarta(@RequestBody KartaDTO kartaDTO, Principal principal){
+
+		//User user = userService.getUserByUsername(principal.getName());
+		User user = new User();
+		user.setId(2L);
+		Karta karta = kartaServis.saveKarta(kartaDTO, user);
 		
-		karta = kartaServis.save(karta);
-		return new ResponseEntity<>(new KartaDTO(karta), HttpStatus.CREATED);	
+		return new ResponseEntity<>(karta, HttpStatus.CREATED);	
 	}
 	
-	//Izmeni postojecu kartu
+	//Aktiviraj kartu
 	@PutMapping()
-	public ResponseEntity<KartaDTO> updateKarta(@RequestBody KartaDTO kartaDTO){
+	public ResponseEntity<Karta> updateKarta(@RequestBody KartaDTO kartaDTO){
 		//karta mora postojati
 		Karta karta = kartaServis.getOne(kartaDTO.getId()); 
 		if (karta == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		karta.setId(kartaDTO.getId());
-		karta.setTip(kartaDTO.getTip());
-		karta.setAktivirana(kartaDTO.isAktivirana());
-		karta.setVaziOd(kartaDTO.getVaziOd());
-		karta.setVaziDo(kartaDTO.getVaziDo());
-		karta.setCena(kartaDTO.getCena());
-		karta.setVlasnik(kartaDTO.getVlasnik());
-		
+		;
+		karta.setAktivirana(true);
+				
 		karta = kartaServis.save(karta);
-		return new ResponseEntity<>(new KartaDTO(karta), HttpStatus.OK);	
+		return new ResponseEntity<>(karta, HttpStatus.OK);	
 	}
 	
 	

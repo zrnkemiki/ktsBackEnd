@@ -8,7 +8,7 @@ import com.smv.AirSpace.model.TipKarte;
 public class KartaDTO {
 
 	private Long id;
-	private TipKarte tip;
+	private String tip;
 	private boolean aktivirana;
 	private Date vaziOd;
 	private Date vaziDo;
@@ -21,7 +21,7 @@ public class KartaDTO {
 
 	public KartaDTO (Karta k) {
 		this.id = k.getId();
-		this.tip = k.getTip();
+		this.tip = k.getTip().toString();
 		this.aktivirana = k.isAktivirana();
 		this.vaziOd = k.getVaziOd();
 		this.vaziDo = k.getVaziDo();
@@ -37,11 +37,11 @@ public class KartaDTO {
 		this.id = id;
 	}
 
-	public TipKarte getTip() {
+	public String getTip() {
 		return tip;
 	}
 
-	public void setTip(TipKarte tip) {
+	public void setTip(String tip) {
 		this.tip = tip;
 	}
 
