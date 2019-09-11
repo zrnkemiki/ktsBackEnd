@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smv.AirSpace.dto.VoziloDTO;
@@ -37,15 +37,15 @@ public class VoziloKontroler {
 	public ResponseEntity<?> getAll() {
 		
 		List<Vozilo> vozila = voziloServis.findAll();
-		List<VoziloDTO> vozilaDTO = new ArrayList<VoziloDTO>();
+		List<VoziloDTO> vozilaDTO = new ArrayList<>();
 
-		// convert vozilo in DTOVozlo. List<VoziloDTO> vozilaDTO = new ArrayList<>();
+
 		for (Vozilo voz : vozila) {
 			vozilaDTO.add(new VoziloDTO(voz));
 		}
 
 		try {
-			return new ResponseEntity<List<VoziloDTO>>(vozilaDTO, HttpStatus.OK);
+			return new ResponseEntity<>(vozilaDTO, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -55,7 +55,7 @@ public class VoziloKontroler {
 	public ResponseEntity<?> getVehicle(@PathVariable("param") Long id) {
 		Vozilo vozilo = voziloServis.findByID(id);
 		VoziloDTO voziloDTO = new VoziloDTO(vozilo);
-		return new ResponseEntity<VoziloDTO>(voziloDTO, HttpStatus.OK);
+		return new ResponseEntity<>(voziloDTO, HttpStatus.OK);
 	}
 
 	// Create new vehicle.
@@ -65,25 +65,25 @@ public class VoziloKontroler {
 
 		Vozilo vozilo = voziloServis.saveVehicle(voziloDTO);
 
-		return new ResponseEntity<Vozilo>(vozilo, HttpStatus.CREATED);
+		return new ResponseEntity<>(vozilo, HttpStatus.CREATED);
 	}
 
 	// Update vozilo.
 	// @PreAuthorize("hasAuthority('ADMINISTRATOR')")
 	@PutMapping()
 	public ResponseEntity<Vozilo> updateVehicle(@RequestBody VoziloDTO voziloDTO, Principal principal) {
-		return new ResponseEntity<Vozilo>(voziloServis.update(voziloDTO, principal), HttpStatus.OK);
+		return new ResponseEntity<>(voziloServis.update(voziloDTO, principal), HttpStatus.OK);
 	}
 
 	// Delete vozilo.
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteVozilo(@PathVariable Long id) {
 		Vozilo vozilo = voziloServis.getOne(id);
 		if (vozilo == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		voziloServis.delete(vozilo.getId());
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

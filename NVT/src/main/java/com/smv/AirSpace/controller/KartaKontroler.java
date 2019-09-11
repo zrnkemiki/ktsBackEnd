@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smv.AirSpace.dto.KartaDTO;
@@ -41,7 +43,7 @@ public class KartaKontroler {
 	}
 	
 	//nadji jednu kartu
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@GetMapping(value="/{id}")
 	public ResponseEntity<KartaDTO> getKarta(@PathVariable Long id){
 		Karta karta = kartaServis.getOne(id);
 		if(karta == null){
@@ -52,7 +54,7 @@ public class KartaKontroler {
 	}
 	
 	//dodaj novu kartu
-	@RequestMapping(value="/add", method=RequestMethod.POST, consumes="application/json")
+	@PostMapping(value="/add", consumes="application/json")
 	public ResponseEntity<KartaDTO> saveKarta(@RequestBody KartaDTO kartaDTO){
 		Karta karta = new Karta();
 		karta.setId(kartaDTO.getId());
@@ -68,7 +70,7 @@ public class KartaKontroler {
 	}
 	
 	//Izmeni postojecu kartu
-	@RequestMapping(value="/update", method=RequestMethod.PUT, consumes="application/json")
+	@PutMapping()
 	public ResponseEntity<KartaDTO> updateKarta(@RequestBody KartaDTO kartaDTO){
 		//karta mora postojati
 		Karta karta = kartaServis.getOne(kartaDTO.getId()); 
@@ -90,7 +92,7 @@ public class KartaKontroler {
 	
 	
 	//obrisi kartu
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	@DeleteMapping(value="/{id}")
 	public ResponseEntity<Void> deleteKarta(@PathVariable Long id){
 		Karta karta = kartaServis.getOne(id);
 		if (karta != null){
