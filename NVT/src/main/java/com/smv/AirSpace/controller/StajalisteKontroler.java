@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,20 +54,20 @@ public class StajalisteKontroler {
 		return new ResponseEntity<>(stajalisteDTO, HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Stajaliste> addStajaliste(@RequestBody StajalisteDTO stajalisteDTO) {
 		Stajaliste stajaliste = stajalisteServis.save(stajalisteDTO);
 		return new ResponseEntity<>(stajaliste, HttpStatus.CREATED);
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PutMapping()
 	public ResponseEntity<Stajaliste> updateStajaliste(@RequestBody StajalisteDTO stajalisteDTO, Principal principal) {
 		return new ResponseEntity<>(stajalisteServis.update(stajalisteDTO, principal), HttpStatus.OK);	
 	}
 	
-	//@PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteStajaliste(@PathVariable Long id) {
 		Stajaliste stajaliste = stajalisteServis.getOne(id);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,20 +61,20 @@ public class LinijaKontroler {
 		return new ResponseEntity<>(linijaDTO, HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Linija> addLinija(@RequestBody LinijaDTO linijaDTO) {
 		Linija linija = linijaServis.save(linijaDTO);
 		return new ResponseEntity<>(linija, HttpStatus.CREATED);
 	}
 
-	// @PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@PutMapping()
 	public ResponseEntity<Linija> updateLinija(@RequestBody LinijaDTO linijaDTO, Principal principal) {
 		return new ResponseEntity<>(linijaServis.update(linijaDTO, principal), HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('EMPLOYEE')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteLinija(@PathVariable Long id) {
 		Linija linija = linijaServis.getOne(id);
