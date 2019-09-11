@@ -17,6 +17,13 @@ public class CenovnikDTO {
 	private String tipKarte;
 
 	private int cena;
+	
+	
+
+	public CenovnikDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public CenovnikDTO(Long id, boolean aktivan, Date datumOd, Date datumDo, String tipKarte, int cena) {
 		super();

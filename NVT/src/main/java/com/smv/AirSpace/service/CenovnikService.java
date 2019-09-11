@@ -47,11 +47,14 @@ public class CenovnikService {
 		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecna")) {
 			cenovnik.setTipKarte(TipKarte.mesecna);;
 		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnaSkolska")) {
+		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnaskolska")) {
 			cenovnik.setTipKarte(TipKarte.mesecnaSkolska);;
 		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnaPenzionerska")) {
-			cenovnik.setTipKarte(TipKarte.mesecnaPenzionerska);;
+		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnapenzionerska")) {
+			cenovnik.setTipKarte(TipKarte.mesecnaPenzionerska);
+		}
+		else {
+			cenovnik.setTipKarte(TipKarte.jednokratna);
 		}
 		
 		return cenovnikRepo.save(cenovnik);
