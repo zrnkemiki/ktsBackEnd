@@ -1,5 +1,6 @@
 package com.smv.AirSpace.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -62,25 +63,9 @@ public class Karta {
 		super();
 	}
 
-	public Karta(KartaDTO kartaDTO) {
-		this.id = kartaDTO.getId();
-		if (kartaDTO.getTip().equalsIgnoreCase("jednokratna")) {
-			this.setTip(TipKarte.jednokratna);
-		} else if (kartaDTO.getTip().equalsIgnoreCase("dnevna")) {
-			this.setTip(TipKarte.dnevna);
-		} else if (kartaDTO.getTip().equalsIgnoreCase("mesecna")) {
-			this.setTip(TipKarte.mesecna);
-		} else if (kartaDTO.getTip().equalsIgnoreCase("mesecnaSkolska")) {
-			this.setTip(TipKarte.mesecnaSkolska);
-		} else if (kartaDTO.getTip().equalsIgnoreCase("mesecnaPenzionerska")) {
-			this.setTip(TipKarte.mesecnaPenzionerska);
-		} else {
-			this.setTip(TipKarte.dnevna);
-		}
-		this.aktivirana = kartaDTO.isAktivirana();
-		this.vaziOd = kartaDTO.getVaziOd();
-		this.vaziDo = kartaDTO.getVaziDo();
-		this.cena = kartaDTO.getCena();
+	public Karta(KartaDTO kartaDTO, User user) {
+
+		
 	}
 
 	public Long getId() {

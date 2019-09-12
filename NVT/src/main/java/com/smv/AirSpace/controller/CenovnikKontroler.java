@@ -66,14 +66,14 @@ public class CenovnikKontroler {
 
 	// Deaktiviraj cenovnik.
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Cenovnik> deleteCenovnik(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteCenovnik(@PathVariable Long id) {
 		Cenovnik cenovnik = cenovnikServis.getOne(id);
 		if (cenovnik == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		cenovnik.setAktivan(false);
 		cenovnikServis.save(cenovnik);
-		return new ResponseEntity<>(cenovnik, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

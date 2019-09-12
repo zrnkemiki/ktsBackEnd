@@ -1,5 +1,7 @@
 package com.smv.AirSpace.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.smv.AirSpace.dto.CenovnikDTO;
 import com.smv.AirSpace.model.Cenovnik;
+import com.smv.AirSpace.model.Karta;
 import com.smv.AirSpace.model.TipKarte;
 import com.smv.AirSpace.repository.CenovnikRepozitorijum;
 
@@ -19,13 +22,13 @@ public class CenovnikService {
 	CenovnikRepozitorijum cenovnikRepo;
 
 	public List<Cenovnik> findAll() {
-		return cenovnikRepo.findAll();	
+		return cenovnikRepo.findAll();
 	}
-	
+
 	public Cenovnik save(Cenovnik cenovnik) {
 		return cenovnikRepo.save(cenovnik);
 	}
-	
+
 	public Cenovnik findOne(Long id) {
 		return cenovnikRepo.findById(id).orElse(null);
 	}
@@ -42,25 +45,23 @@ public class CenovnikService {
 		cenovnik.setDatumDo(cenovnikDTO.getDatumDo());
 		cenovnik.setAktivan(true);
 		cenovnik.setCena(cenovnikDTO.getCena());
-		if(cenovnikDTO.getTipKarte().toLowerCase().equals("jednokratna")) {
-			cenovnik.setTipKarte(TipKarte.jednokratna);;
-		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("dnevna")) {
+		if (cenovnikDTO.getTipKarte().equalsIgnoreCase("jednokratna")) {
+			cenovnik.setTipKarte(TipKarte.jednokratna);
+			;
+		} else if (cenovnikDTO.getTipKarte().equalsIgnoreCase("dnevna")) {
 			cenovnik.setTipKarte(TipKarte.dnevna);
-		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecna")) {
-			cenovnik.setTipKarte(TipKarte.mesecna);;
-		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnaskolska")) {
-			cenovnik.setTipKarte(TipKarte.mesecnaSkolska);;
-		}
-		else if(cenovnikDTO.getTipKarte().toLowerCase().equals("mesecnapenzionerska")) {
+		} else if (cenovnikDTO.getTipKarte().equalsIgnoreCase("mesecna")) {
+			cenovnik.setTipKarte(TipKarte.mesecna);
+			;
+		} else if (cenovnikDTO.getTipKarte().equalsIgnoreCase("mesecnaskolska")) {
+			cenovnik.setTipKarte(TipKarte.mesecnaSkolska);
+			;
+		} else if (cenovnikDTO.getTipKarte().equalsIgnoreCase("mesecnapenzionerska")) {
 			cenovnik.setTipKarte(TipKarte.mesecnaPenzionerska);
-		}
-		else {
+		} else {
 			cenovnik.setTipKarte(TipKarte.jednokratna);
 		}
-		
+
 		return cenovnikRepo.save(cenovnik);
 	}
 
@@ -77,8 +78,18 @@ public class CenovnikService {
 		}
 		return rets.get();
 	}
-	
-	
-		
-		
+
+	public Cenovnik getCenovnikPoTipu(TipKarte tipKarte) {
+		List<Cenovnik> cenovnici = findAll();
+		Iterator<Cenovnik> iterator = cenovnici.iterator();
+		while (iterator.hasNext()) {
+			Cenovnik cenovnik = iterator.next();
+			if (!cenovnik.isAktivan() || cenovnik.getTipKarte() != tipKarte) {
+				iterator.remove();
+			}
+		}
+		return cenovnici.get(0);
+
+	}
+
 }
