@@ -127,6 +127,7 @@ public class User {
 		this.password = dto.getPassword();
 		this.city = dto.getCity();
 		this.phoneNumber = dto.getNumber();
+		this.userType = dto.getUserType();
 		this.uuid = UUID.randomUUID().toString();
 	}
 

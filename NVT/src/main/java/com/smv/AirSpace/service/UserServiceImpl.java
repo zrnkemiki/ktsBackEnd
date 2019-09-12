@@ -88,8 +88,9 @@ public class UserServiceImpl implements UserService {
 	
 	public User update(UserDTO userDTO, Principal principal) {
 		try {
-			findByUsername(userDTO.getUsername());
-			User user = new User(userDTO);
+			User user = findByUsername(userDTO.getUsername());
+			user.setPhoneNumber(userDTO.getNumber());
+			user.setUserType(userDTO.getUserType());
 			userRepository.save(user);
 			return user;
 		} catch (Exception e) {

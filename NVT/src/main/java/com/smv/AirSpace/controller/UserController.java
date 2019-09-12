@@ -45,9 +45,9 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id) {
-		User user = userService.findByID(id);
+	@GetMapping(value = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> getUser(@PathVariable("username") String username) {
+		User user = userService.findByUsername(username);
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
