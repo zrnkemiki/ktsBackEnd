@@ -59,6 +59,17 @@ public class KartaKontroler {
 		return new ResponseEntity<>(karteDTO, HttpStatus.OK);
 
 	}
+	
+	@GetMapping(value = "/{username}")
+	public ResponseEntity<List<KartaDTO>> getTicketByUserName(@PathVariable String username) {
+		User user = userService.getUserByUsername(username);
+		
+		List<KartaDTO> karteDTO = kartaServis.getByUser(user);
+		// konvertuj karte u DTO
+		
+		return new ResponseEntity<>(karteDTO, HttpStatus.OK);
+
+	}
 
 	// nadji jednu kartu
 	@GetMapping(value = "/{id}")

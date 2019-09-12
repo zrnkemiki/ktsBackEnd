@@ -41,6 +41,8 @@ public class CenovnikDTO {
 		this.datumDo = cen.getDatumDo();
 		this.tipKarte = cen.getTipKarte().toString();
 		this.cena = cen.getCena();
+		this.aktivan = cen.isAktivan();
+		
 	}
 
 	public Long getId() {
