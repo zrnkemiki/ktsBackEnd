@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -65,6 +67,13 @@ public class UserController {
 	@PutMapping()
 	public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, Principal principal) {
 		return new ResponseEntity<>(userService.update(userDTO, principal), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/document/{username}", consumes = "multipart/form-data")
+	// public ResponseEntity<Void> uploadDocument(@PathVariable("username") String username, @RequestParam("image") MultipartFile image) {
+	public ResponseEntity<Void> uploadDocument(@PathVariable("username") String username, HttpServletRequest request) {
+		System.out.println(request.getContentType() + " " + username);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// Create new employee.
