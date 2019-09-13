@@ -88,7 +88,12 @@ public class CenovnikService {
 				iterator.remove();
 			}
 		}
-		return cenovnici.get(0);
+		if(cenovnici.size() != 0) {
+			return cenovnici.get(0);
+		}
+		else {
+			return null;
+	}
 
 	}
 

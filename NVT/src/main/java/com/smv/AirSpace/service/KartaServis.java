@@ -95,7 +95,12 @@ public class KartaServis {
 		
 
 		Cenovnik cenovnik = cenovnikService.getCenovnikPoTipu(karta.getTip());
-		karta.setCena(cenovnik.getCena());
+		if(!(cenovnik == null)) {
+			karta.setCena(cenovnik.getCena());
+		}
+		else {
+			karta.setCena(0);
+		}
 		kartaRepo.save(karta);
 		return karta;
 	}
